@@ -1,0 +1,47 @@
+EFFICIENTNET-B0 V2 FINAL TEST EVALUATION
+============================================================
+
+Model: models/efficientnet_defect_v2.pth
+Test images: 146
+Threshold: 0.40
+Threshold selected using validation Macro F1 only.
+
+CLASSIFICATION REPORT
+------------------------------------------------------------
+              precision    recall  f1-score   support
+
+   Burn Mark     0.6471    0.7586    0.6984        58
+       Flash     0.7500    0.8491    0.7965        53
+  Short Shot     0.2676    0.9500    0.4176        20
+   Sink Mark     0.4667    0.8571    0.6043        49
+
+   micro avg     0.5190    0.8333    0.6397       180
+   macro avg     0.5328    0.8537    0.6292       180
+weighted avg     0.5861    0.8333    0.6705       180
+ samples avg     0.4817    0.6005    0.5096       180
+
+OVERALL METRICS
+------------------------------------------------------------
+Macro Precision: 0.5328
+Macro Recall: 0.8537
+Macro F1: 0.6292
+Micro Precision: 0.5190
+Micro Recall: 0.8333
+Micro F1: 0.6397
+Exact Match: 0.2397
+Hamming Accuracy: 0.7106
+
+PER-CLASS CONFUSION MATRICES
+------------------------------------------------------------
+
+Burn Mark
+TN=64, FP=24, FN=14, TP=44
+
+Flash
+TN=78, FP=15, FN=8, TP=45
+
+Short Shot
+TN=74, FP=52, FN=1, TP=19
+
+Sink Mark
+TN=49, FP=48, FN=7, TP=42

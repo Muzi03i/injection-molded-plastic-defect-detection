@@ -1,0 +1,8 @@
+ResNet18 Threshold Optimization
+==================================================
+
+Validation images: 34
+
+Best global threshold: 0.40
+Validation Macro F1: 0.4744
+Validation Micro F1: 0.5000

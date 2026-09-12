@@ -1,0 +1,45 @@
+FINAL CLEAN DATASET SUMMARY
+============================================================
+
+Total images: 975
+Similarity groups: 708
+
+Global target-label occurrences:
+  Burn Mark: 364
+  Flash: 380
+  Short Shot: 150
+  Sink Mark: 323
+
+TRAIN
+Images: 683
+  Burn Mark: 257
+  Flash: 266
+  Short Shot: 111
+  Sink Mark: 227
+  No selected target defect: 165
+
+VALID
+Images: 146
+  Burn Mark: 49
+  Flash: 61
+  Short Shot: 19
+  Sink Mark: 47
+  No selected target defect: 37
+
+TEST
+Images: 146
+  Burn Mark: 58
+  Flash: 53
+  Short Shot: 20
+  Sink Mark: 49
+  No selected target defect: 39
+
+Split ratios requested:
+  Train: 70%
+  Validation: 15%
+  Test: 15%
+
+Duplicate grouping thresholds:
+  pHash <= 4
+  dHash <= 6
+  cosine similarity >= 0.985

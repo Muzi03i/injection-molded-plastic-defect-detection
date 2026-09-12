@@ -1,0 +1,500 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Analyse Component | PlasticVision AI
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="hero">
+
+    <p class="eyebrow">
+        AI-POWERED QUALITY INSPECTION
+    </p>
+
+    <h1>
+        Injection-Molded Plastic
+        Defect Detection
+    </h1>
+
+    <p class="hero-text">
+        Analyse plastic components for Burn Mark,
+        Flash, Short Shot and Sink Mark defects
+        using EfficientNet-B0 deep learning.
+    </p>
+
+</section>
+
+
+<div class="page-container">
+
+
+    <!-- IMAGE INPUT -->
+
+    <section class="panel">
+
+        <div class="section-heading">
+
+            <div>
+
+                <p class="section-label">
+                    ANALYSIS
+                </p>
+
+                <h2>
+                    Analyse Component Image
+                </h2>
+
+            </div>
+
+
+            <span class="model-badge">
+                EfficientNet-B0 V2
+            </span>
+
+        </div>
+
+
+        <p class="technical-note">
+            Take a new photo using your phone camera
+            or upload an existing image from your device.
+        </p>
+
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+            id="analysis-form"
+        >
+
+            <div class="image-source-options">
+
+
+                <!-- CAMERA -->
+
+                <label class="upload-zone">
+
+                    <div class="upload-icon">
+                        📷
+                    </div>
+
+                    <strong>
+                        Take Photo
+                    </strong>
+
+                    <span>
+                        Use the rear camera to photograph
+                        the plastic component
+                    </span>
+
+                    <input
+                        id="camera-image"
+                        type="file"
+                        name="camera_image"
+                        accept="image/*"
+                        capture="environment"
+                    >
+
+                </label>
+
+
+                <!-- GALLERY -->
+
+                <label class="upload-zone">
+
+                    <div class="upload-icon">
+                        ↑
+                    </div>
+
+                    <strong>
+                        Upload Existing Image
+                    </strong>
+
+                    <span>
+                        Select an existing JPG,
+                        JPEG or PNG image
+                    </span>
+
+                    <input
+                        id="gallery-image"
+                        type="file"
+                        name="gallery_image"
+                        accept="image/jpeg,image/png"
+                    >
+
+                </label>
+
+            </div>
+
+
+            <p
+                id="selected-image-message"
+                class="technical-note"
+            >
+                Select one image source above.
+            </p>
+
+
+            <button
+                class="primary-button"
+                type="submit"
+            >
+                Analyse Image
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="error-message">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- IMAGE PREVIEW -->
+
+    {% if image_preview %}
+
+    <section class="panel">
+
+        <p class="section-label">
+            INPUT IMAGE
+        </p>
+
+        <h2>
+            Uploaded Component
+        </h2>
+
+
+        <div class="image-preview">
+
+            <img
+                src="data:image/jpeg;base64,{{ image_preview }}"
+                alt="Uploaded plastic component"
+            >
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- OVERALL RESULT -->
+
+    {% if overall_result %}
+
+        {% if overall_result == 'DEFECT DETECTED' %}
+
+        <div class="status-card status-danger">
+
+            <span class="status-dot"></span>
+
+            <div>
+
+                <small>
+                    ANALYSIS RESULT
+                </small>
+
+                <strong>
+                    Defect Detected
+                </strong>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="status-card status-success">
+
+            <span class="status-dot"></span>
+
+            <div>
+
+                <small>
+                    ANALYSIS RESULT
+                </small>
+
+                <strong>
+                    No Selected Defect Detected
+                </strong>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    {% endif %}
+
+
+    <!-- CLASSIFICATION RESULTS -->
+
+    {% if results %}
+
+    <section class="panel">
+
+        <p class="section-label">
+            CLASSIFICATION
+        </p>
+
+        <h2>
+            Prediction Results
+        </h2>
+
+
+        <div class="prediction-grid">
+
+            {% for result in results %}
+
+            <div
+                class="
+                    prediction-card
+                    {% if result.detected %}
+                    prediction-detected
+                    {% endif %}
+                "
+            >
+
+                <div class="prediction-top">
+
+                    <strong>
+                        {{ result.class_name }}
+                    </strong>
+
+
+                    {% if result.detected %}
+
+                    <span class="detected-pill">
+                        Detected
+                    </span>
+
+                    {% else %}
+
+                    <span class="clear-pill">
+                        Clear
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="confidence-value">
+
+                    {{ "%.2f"|format(
+                        result.percentage
+                    ) }}%
+
+                </div>
+
+
+                <progress
+                    class="
+                        progress-bar
+                        {% if result.detected %}
+                        progress-danger
+                        {% endif %}
+                    "
+                    value="{{ result.percentage }}"
+                    max="100"
+                >
+                </progress>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- GRAD-CAM LOCALIZATION -->
+
+    {% if results %}
+
+    <section class="panel">
+
+        <p class="section-label">
+            MODEL INTERPRETABILITY
+        </p>
+
+        <h2>
+            Approximate Defect Region Annotation
+        </h2>
+
+
+        <div class="localization-grid">
+
+            {% for result in results %}
+
+                {% if result.detected and result.cam_image %}
+
+                <div class="localization-card">
+
+                    <div class="localization-header">
+
+                        <h3>
+                            {{ result.class_name }}
+                        </h3>
+
+                        <span class="confidence-badge">
+
+                            {{ "%.2f"|format(
+                                result.percentage
+                            ) }}%
+
+                        </span>
+
+                    </div>
+
+
+                    <img
+                        src="data:image/jpeg;base64,{{ result.cam_image }}"
+                        alt="{{ result.class_name }} Grad-CAM annotation"
+                    >
+
+                </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+
+        <p class="technical-note">
+            Grad-CAM provides approximate localization
+            of regions that influenced the model's
+            prediction.
+        </p>
+
+    </section>
+
+    {% endif %}
+
+
+    <!-- THRESHOLD -->
+
+    {% if results %}
+
+    <div class="threshold-note">
+
+        Final decision threshold:
+
+        <strong>
+            {{ "%.2f"|format(threshold) }}
+        </strong>
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+
+<script>
+
+    const cameraInput =
+        document.getElementById(
+            "camera-image"
+        );
+
+    const galleryInput =
+        document.getElementById(
+            "gallery-image"
+        );
+
+    const analysisForm =
+        document.getElementById(
+            "analysis-form"
+        );
+
+    const selectedImageMessage =
+        document.getElementById(
+            "selected-image-message"
+        );
+
+
+    cameraInput.addEventListener(
+        "change",
+        function () {
+
+            if (
+                cameraInput.files.length > 0
+            ) {
+
+                galleryInput.value = "";
+
+                selectedImageMessage.textContent =
+                    "Camera image selected: "
+                    + cameraInput.files[0].name;
+            }
+
+        }
+    );
+
+
+    galleryInput.addEventListener(
+        "change",
+        function () {
+
+            if (
+                galleryInput.files.length > 0
+            ) {
+
+                cameraInput.value = "";
+
+                selectedImageMessage.textContent =
+                    "Uploaded image selected: "
+                    + galleryInput.files[0].name;
+            }
+
+        }
+    );
+
+
+    analysisForm.addEventListener(
+        "submit",
+        function (event) {
+
+            const cameraSelected =
+                cameraInput.files.length > 0;
+
+            const gallerySelected =
+                galleryInput.files.length > 0;
+
+
+            if (
+                !cameraSelected
+                &&
+                !gallerySelected
+            ) {
+
+                event.preventDefault();
+
+                selectedImageMessage.textContent =
+                    "Please take a photo or upload "
+                    + "an image before analysing.";
+            }
+
+        }
+    );
+
+</script>
+
+
+{% endblock %}

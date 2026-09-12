@@ -1,0 +1,24 @@
+EfficientNet-B0 Threshold Optimization
+==================================================
+
+Validation images: 34
+
+Best Global Threshold
+------------------------------
+Threshold: 0.60
+Macro F1: 0.5017
+Micro F1: 0.5063
+
+Best Per-Class Thresholds
+------------------------------
+burn mark: 0.60 (F1 = 0.5217)
+flash: 0.35 (F1 = 0.6842)
+short shot: 0.60 (F1 = 0.3750)
+sink mark: 0.60 (F1 = 0.5882)
+
+Per-Class Threshold Results
+------------------------------
+Macro F1: 0.5423
+Micro F1: 0.5745
+Exact Accuracy: 0.2059
+Hamming Accuracy: 0.7059

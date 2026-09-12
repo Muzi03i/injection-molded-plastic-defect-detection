@@ -1,0 +1,5 @@
+class,threshold,validation_f1
+burn mark,0.6,0.5217391304347826
+flash,0.35,0.6842105263157895
+short shot,0.6,0.375
+sink mark,0.6,0.5882352941176471

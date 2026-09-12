@@ -1,0 +1,26 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# VS Code
+.vscode/
+
+# Downloaded/raw datasets
+new_dataset/
+data/raw/
+
+# Clean dataset image files
+data/final_clean/**/*.jpg
+data/final_clean/**/*.jpeg
+data/final_clean/**/*.png
+data/final_clean/**/*.webp
+
+# Archives
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db

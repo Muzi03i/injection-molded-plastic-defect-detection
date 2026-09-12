@@ -1,0 +1,23 @@
+EfficientNet-B0 Final Test Evaluation
+==================================================
+
+Number of test images: 18
+Decision threshold: 0.60
+Threshold selection method: Maximum Macro F1 on validation set
+
+Classification Report
+--------------------------------------------------
+              precision    recall  f1-score   support
+
+   burn mark       0.25      0.75      0.38         4
+       flash       0.56      0.83      0.67         6
+  short shot       1.00      0.75      0.86         4
+   sink mark       0.62      0.83      0.71         6
+
+   micro avg       0.50      0.80      0.62        20
+   macro avg       0.61      0.79      0.65        20
+weighted avg       0.60      0.80      0.66        20
+ samples avg       0.42      0.64      0.48        20
+
+Exact-match Accuracy: 0.1111 (11.11%)
+Hamming Accuracy: 0.7222 (72.22%)
